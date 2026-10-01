@@ -88,7 +88,7 @@ async def main():
             probe.write(f"{stamp()} # error {e!r}\n")
         probe.write(f"{stamp()} {kind} {'ok' if ok else 'LOST'} {time.time() - t0:.1f}\n")
         misses = 0 if ok else misses + 1
-        if misses == 2:                                      # node may have rebooted / lost its ACL: log in again
+        if misses >= 2 and misses % 3 == 2:                  # node may have rebooted / lost its ACL: log in again
             r = await mc.commands.send_login_sync(NODE_PUB, pw, timeout=10)
             probe.write(f"{stamp()} # re-login {'ok' if r and r.type == EventType.LOGIN_SUCCESS else 'FAILED'}\n")
 

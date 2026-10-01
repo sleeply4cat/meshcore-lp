@@ -79,6 +79,10 @@ def main(obs_log, log, node):
         last = hops[-1] if hops else "-"
         if last == node[:2 * hs]:
             continue
+        pkt = bytes.fromhex(m[2])
+        pl = pkt[1 + (4 if route in (0, 3) else 0) + 1 + len(path):]
+        if not path and ptype in (0, 1, 2, 8) and len(pl) > 1 and pl[1] == int(node[:2], 16):
+            continue                      # zero-hop packet sent by the node itself (e.g. a reply)
         got = any(abs(x - t) < 5 for x in ours.get((h[:16], path.hex().upper()), []))
         rows.append((a, last, got))
     heard = {last for a, last, got in rows if got}
