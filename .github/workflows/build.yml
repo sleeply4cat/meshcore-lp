@@ -38,7 +38,7 @@ jobs:
           make release NRFUTIL=$(command -v adafruit-nrfutil || echo $HOME/.local/bin/adafruit-nrfutil) 2>&1 | tee build.log || \
             { echo "::error title=make release::$(grep -vE '^arm-none-eabi-(gcc|g\+\+) ' build.log | tail -40 | sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g')"; exit 1; }
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: meshcore-lp-repeater
           path: |
