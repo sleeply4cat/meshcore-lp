@@ -1,0 +1,19 @@
+{
+  "_comment": "Copy to local.json (ignored by git). Paths starting with ./ are relative to the firmware root.",
+
+  "node_pubkey": "<64 hex chars: public key of the node under test (get public.key)>",
+  "node_hash": "<first byte of node_pubkey, 2 hex chars>",
+  "node_prvkey_file": "./.secrets/node_prvkey.txt",
+  "admin_password_file": "./.secrets/admin_pw.txt",
+
+  "radio": {"freq": 869.618, "bw": 62.5, "sf": 8, "cr": 5},
+
+  "companion_usb_serial": "<USB serial number of the local companion used as observer/prober>",
+  "companion_tx_dbm": 10,
+
+  "mqtt_dump": "./logs/mqtt.txt",
+  "mqtt_observer": "<origin name of an MQTT observer near the node>",
+  "mqtt_observer_hash": "<its path hash, hex>",
+
+  "short_preamble_nodes": "<comma separated path hashes of neighbours still sending 16-symbol preambles>"
+}

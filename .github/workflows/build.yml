@@ -1,0 +1,41 @@
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  firmware:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-arm-none-eabi libnewlib-arm-none-eabi make g++
+          python3 -m pip install --user adafruit-nrfutil pyserial
+
+      - name: S140 SoftDevice (for repeater-sd.zip only)
+        run: |
+          mkdir -p third_party/softdevice
+          curl -fsSL -o third_party/softdevice/s140_nrf52_6.1.1_softdevice.hex \
+            https://raw.githubusercontent.com/adafruit/Adafruit_nRF52_Bootloader/master/lib/softdevice/s140_nrf52_6.1.1/s140_nrf52_6.1.1_softdevice.hex
+
+      - name: Host tests
+        run: make test
+
+      - name: Release build
+        run: make release NRFUTIL=$HOME/.local/bin/adafruit-nrfutil
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: meshcore-lp-repeater
+          path: |
+            build/release/repeater.zip
+            build/release/repeater-sd.zip
+            build/release/repeater.uf2
+            build/release/SHA256SUMS

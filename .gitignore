@@ -1,0 +1,19 @@
+# build output
+build/
+*.zip
+*.uf2
+*.hex
+!tools/*.json
+
+# local, never commit
+config.mk
+tools/local.json
+.secrets/
+logs/
+third_party/softdevice/
+
+# python
+__pycache__/
+*.pyc
+venv/
+.venv/
