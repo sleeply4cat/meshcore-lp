@@ -9,7 +9,7 @@ jobs:
   firmware:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -17,7 +17,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends gcc-arm-none-eabi libnewlib-arm-none-eabi make g++
-          python3 -m pip install --user adafruit-nrfutil pyserial
+          python3 -m pip install --user --break-system-packages adafruit-nrfutil pyserial || python3 -m pip install --user adafruit-nrfutil pyserial
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: S140 SoftDevice (for repeater-sd.zip only)
         run: |
@@ -26,10 +27,16 @@ jobs:
             https://raw.githubusercontent.com/adafruit/Adafruit_nRF52_Bootloader/master/lib/softdevice/s140_nrf52_6.1.1/s140_nrf52_6.1.1_softdevice.hex
 
       - name: Host tests
-        run: make test
+        run: |
+          set -o pipefail
+          make test 2>&1 | tee test.log || { echo "::error title=make test::$(tail -30 test.log | sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g')"; exit 1; }
 
       - name: Release build
-        run: make release NRFUTIL=$HOME/.local/bin/adafruit-nrfutil
+        run: |
+          set -o pipefail
+          echo "::notice title=tools::$(command -v adafruit-nrfutil || ls $HOME/.local/bin 2>&1 | tr '\n' ' ')"
+          make release NRFUTIL=$(command -v adafruit-nrfutil || echo $HOME/.local/bin/adafruit-nrfutil) 2>&1 | tee build.log || \
+            { echo "::error title=make release::$(grep -vE '^arm-none-eabi-(gcc|g\+\+) ' build.log | tail -40 | sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g')"; exit 1; }
 
       - uses: actions/upload-artifact@v4
         with:

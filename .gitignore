@@ -17,3 +17,6 @@ __pycache__/
 *.pyc
 venv/
 .venv/
+
+# CI
+*.log
