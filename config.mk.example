@@ -2,12 +2,17 @@
 #
 # Radio defaults baked into the firmware for a freshly erased node. They only matter until the
 # node is configured: 'set radio <freq>,<bw>,<sf>,<cr>' changes them at runtime as in stock MeshCore.
-LORA_FREQ      := 869.618   # MHz
-LORA_BW        := 62.5      # kHz
+# (No comments after values: make keeps trailing spaces.)
+
+# MHz, kHz, spreading factor, coding rate 5..8 (= 4/5..4/8)
+LORA_FREQ      := 869.618
+LORA_BW        := 62.5
 LORA_SF        := 8
-LORA_CR        := 5         # 5..8 = 4/5..4/8
-LORA_TX_POWER  := 22        # dBm, check your local regulations
-PATH_HASH_MODE :=           # empty = stock default (1-byte hashes); 1 = 2-byte path hashes
+LORA_CR        := 5
+# dBm - check your local regulations
+LORA_TX_POWER  := 22
+# empty = stock default (1-byte path hashes), 1 = 2-byte path hashes
+PATH_HASH_MODE :=
 
 # Host tools (any Python with adafruit-nrfutil and pyserial)
 PYTHON         := python3

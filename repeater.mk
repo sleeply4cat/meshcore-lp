@@ -9,6 +9,8 @@ LORA_SF         ?= 8
 LORA_CR         ?= 5
 LORA_TX_POWER   ?= 22
 PATH_HASH_MODE  ?=
+# firmware version string: MeshCore base version + LP revision (CI sets it from the release tag)
+FW_VERSION      ?= v1.17.1-lp1
 NET_DEFS := -DLORA_FREQ=$(LORA_FREQ) -DLORA_BW=$(LORA_BW) -DLORA_SF=$(LORA_SF) -DLORA_CR=$(LORA_CR) \
   -DLORA_TX_POWER=$(LORA_TX_POWER) $(if $(PATH_HASH_MODE),-DLP_DEFAULT_PATH_HASH_MODE=$(PATH_HASH_MODE))
 
@@ -16,7 +18,7 @@ REP_DEFS := -DNRF52_PLATFORM -DARDUINO=10800 -DUSE_SX1262 $(NET_DEFS) \
   -DSX126X_RX_BOOSTED_GAIN=1 -DLP_QUIET_DEFAULTS=1 \
   -DADVERT_NAME='"LP Repeater"' -DADVERT_LAT=0.0 -DADVERT_LON=0.0 -DADMIN_PASSWORD='"password"' \
   -DMAX_NEIGHBOURS=50 -DENABLE_ADVERT_ON_BOOT=1 -DENABLE_PRIVATE_KEY_IMPORT=1 -DENABLE_PRIVATE_KEY_EXPORT=1 \
-  -DFIRMWARE_VERSION='"v1.17.1-lp1"' -DFIRMWARE_BUILD_DATE='"$(shell LC_ALL=C date +'%d %b %Y')"' \
+  -DFIRMWARE_VERSION='"$(FW_VERSION)"' -DFIRMWARE_BUILD_DATE='"$(shell LC_ALL=C date +'%d %b %Y')"' \
   $(LP_EXTRA)
 
 REP_WARN := -Wno-class-memaccess -Wno-reorder -Wno-sign-compare -Wno-format -Wno-unused-variable -Wno-unused-but-set-variable

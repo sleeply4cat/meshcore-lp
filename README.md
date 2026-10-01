@@ -32,13 +32,14 @@ Other wirings need `src/hal/board.h` (pins) and possibly `SX126X_TCXO_VOLTAGE_CO
 
 ## Installing
 
-Release packages (`make release`, see *Building*):
+Download the packages from [Releases](https://github.com/sleeply4cat/meshcore-lp/releases) (or build them with
+`make release`, see *Building*):
 
 | File | Use |
 |---|---|
-| `repeater.zip` | serial DFU: `adafruit-nrfutil dfu serial -pkg repeater.zip -p <port> -b 115200 --singlebank` (or `make flash-repeater`) |
-| `repeater.uf2` | double-tap RESET, copy to the bootloader's USB drive |
-| `repeater-sd.zip` | same as `repeater.zip` plus the S140 SoftDevice, for a chip whose SoftDevice was erased |
+| `…<version>.zip` | serial DFU: `adafruit-nrfutil dfu serial -pkg <file>.zip -p <port> -b 115200 --singlebank` (or `make flash-repeater` for a local build) |
+| `…<version>.uf2` | double-tap RESET, copy to the bootloader's USB drive |
+| `…<version>-sd.zip` | same as the `.zip` plus the S140 SoftDevice, for a chip whose SoftDevice was erased |
 
 Settings are kept across updates of this firmware. Stock and this firmware store settings
 differently: switching between them (either way) starts the node with default settings, so export

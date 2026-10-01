@@ -38,6 +38,9 @@ third_party/              nrfx, tinyusb (submodules), cmsis, crypto, ed25519
   `make PYTHON=... NRFUTIL=...` or `config.mk` select the host tools.
 * `make repeater` -> `build/repeater.{hex,zip}`; `make release` -> clean tree in `build/release`
   (zip, uf2, optional SoftDevice zip, checksums); `make lab`; `make test`; `make flash-<target> PORT=...`.
+* Releases: push a tag `v<meshcore version>-lp<n>` (e.g. `v1.17.1-lp2`); CI builds with that version string
+  (`FW_VERSION`) and publishes a GitHub Release with the packages and checksums. Branch builds keep the
+  packages as a workflow artifact, versioned `<FW_VERSION>-<commit>`.
 * Radio defaults for a freshly erased node come from `config.mk` (`LORA_FREQ/BW/SF/CR/TX_POWER`,
   `PATH_HASH_MODE`); they only matter until the node is configured.
 * Flash: application at `0x26000` (S140 6.1.1 occupies `0x1000..0x26000`; it is never enabled, but the
