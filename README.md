@@ -162,8 +162,9 @@ make release                       # build/release: repeater.zip, repeater.uf2, 
 make test                          # host unit tests
 ```
 
-Needs `arm-none-eabi-gcc` (tested with 13.2), GNU make, Python 3 with `adafruit-nrfutil` and
-`pyserial`. `repeater-sd.zip` is built only if `third_party/softdevice/s140_nrf52_6.1.1_softdevice.hex`
+Needs `arm-none-eabi-gcc` with newlib and its C++ library (tested with 13.2; Debian/Ubuntu packages
+`gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib`), GNU make, Python 3 with
+`adafruit-nrfutil` and `pyserial`. `repeater-sd.zip` is built only if `third_party/softdevice/s140_nrf52_6.1.1_softdevice.hex`
 exists (not redistributed here; it is in the Adafruit nRF52 bootloader repository).
 
 Developer documentation: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md), MeshCore changes:

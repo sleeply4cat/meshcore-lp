@@ -32,7 +32,9 @@ third_party/              nrfx, tinyusb (submodules), cmsis, crypto, ed25519
 
 ## 3. Build, flash, memory map
 
-* Toolchain: `arm-none-eabi-gcc` (13.2 tested), GNU make, Python 3 with `adafruit-nrfutil`, `pyserial`.
+* Toolchain: `arm-none-eabi-gcc` (13.2 tested) with newlib and libstdc++ (Debian/Ubuntu:
+  `gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib`), GNU make, Python 3 with
+  `adafruit-nrfutil`, `pyserial`.
   `make PYTHON=... NRFUTIL=...` or `config.mk` select the host tools.
 * `make repeater` -> `build/repeater.{hex,zip}`; `make release` -> clean tree in `build/release`
   (zip, uf2, optional SoftDevice zip, checksums); `make lab`; `make test`; `make flash-<target> PORT=...`.
